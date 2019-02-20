@@ -7,18 +7,12 @@ class NodeParser
   end
   
   def parse
-    while @numbers.count > 0 do
-      node, metadata_entry = @numbers[0], @numbers[1]
-      @numbers.shift(2)
-      metadata_entry.times do
-        if node == 0
-          @meta << @numbers.first
-          @numbers.shift
-        else
-          @meta << @numbers.last
-          @numbers.pop
-        end
-      end
+    node, meta_entry = @numbers[0], @numbers[1]
+    @numbers.shift(2)
+    node.times do
+      parse if metadata_entry > 0
     end
+    @meta << @numbers[0..(meta_entry - 1)]
+    @numbers.shift(meta_entry)
   end
 end
