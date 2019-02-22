@@ -7,12 +7,16 @@ class NodeParser
   end
   
   def parse
+    node_values = []
     node, meta_entry = @numbers[0], @numbers[1]
     @numbers.shift(2)
     node.times do
-      parse if meta_entry > 0
+      node_values << parse if meta_entry > 0
     end
-    @meta << @numbers[0..(meta_entry - 1)]
+    metas = @numbers[0..(meta_entry - 1)]
+    @meta << metas
     @numbers.shift(meta_entry)
+    return metas.reject{ |m| m > node }.map{ |m| node_values[m-1] }.sum if node > 0
+    metas.sum
   end
 end
